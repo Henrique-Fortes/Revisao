@@ -27,15 +27,25 @@ import { useState, useEffect } from "react";
 // export default App;
 
 export default function App() {
-	const [windowWidth, setwindowWidth] = useState(window.innerWidth);
-
-	const handleResize = () => {
-		setwindowWidth(window.innerWidth);
-	};
+	const [resourceType, setResourceType] = useState("posts");
 
 	useEffect(() => {
-		window.addEventListener("resize", handleResize);
-	}, []);
+		console.log("resource changed");
 
-	return <div>{windowWidth}</div>;
+		return () => {
+			//funciona como um cleanup (retorna ele antes)
+			console.log("return from resource change");
+		};
+	}, [resourceType]);
+
+	return (
+		<>
+			<div>
+				<button onClick={() => setResourceType("posts")}>Posts</button>
+				<button onClick={() => setResourceType("users")}>Users</button>
+				<button onClick={() => setResourceType("comments")}>Comments</button>
+			</div>
+			<h1>{resourceType}</h1>
+		</>
+	);
 }
